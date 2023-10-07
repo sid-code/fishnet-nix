@@ -3,7 +3,7 @@
     naersk.url = "github:nix-community/naersk/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    fishnet = {
+    fishnetSource = {
       url = "git+https://github.com/lichess-org/fishnet?submodules=1";
       flake = false;
     };
@@ -18,7 +18,7 @@
     self,
     nixpkgs,
     naersk,
-    fishnet,
+    fishnetSource,
     nnueNet,
   }: let
     supportedSystems = ["x86_64-linux"];
@@ -122,18 +122,17 @@
       system,
       pkgs,
     }: let
-      naerskLib = pkgs.callPackage naersk {};
-    in rec {
-      default = naerskLib.buildPackage {
-        src = fishnet;
+      fishnet = (pkgs.callPackage naersk {}).buildPackage {
+        src = fishnetSource;
         overrideMain = p: {
           patchPhase = ''
             cp ${nnueNet} Stockfish/src/nn-5af11540bbfe.nnue
           '';
         };
       };
-
-      fishnet = default;
+    in {
+      inherit fishnet;
+      default = fishnet;
     });
 
     devShells = forEachSystem ({
