@@ -90,6 +90,13 @@
           };
         };
         config = mkIf cfg.enable {
+          users.users.fishnet = {
+            isSystemUser = true;
+            home = "/var/fishnet";
+            description = "Fishnet user";
+            group = "fishnet";
+          };
+
           systemd.services.fishnet = {
             description = "Distributed Stockfish analysis for lichess.org";
             wantedBy = ["multi-user.target"];
