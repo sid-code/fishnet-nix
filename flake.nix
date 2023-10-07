@@ -49,7 +49,7 @@
             type = types.path;
           };
           cores = mkOption {
-            description = "The number of CPU cores to use";
+            description = "The number of CPU cores to use.";
             type = types.number;
             default = 3;
           };
