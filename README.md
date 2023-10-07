@@ -18,12 +18,11 @@ Add fishnet-nix to your `flake.nix`:
 {
   inputs = {
     fishnet-nix.url = "https://flakehub.com/f/sid-code/YourFlakeName/*.tar.gz";
-
-	# ...
+    # ...
   }
 
   outputs = {self, fishnet-nix, ...}@inputs: {
-	# ...
+    # ...
   };
 }
 ```
@@ -35,13 +34,12 @@ Then, in a NixOS module:
 {
   imports = [inputs.fishnet-nix.nixosModules.x86_64-linux.default];
   config = {
-	services.fishnet = {
-	  enable = true;
-	  keyFile = "<path to your key file>";
-	  cores = 12; # The number of CPU cores to use.
-	  joinEvenIfNoBacklog = false; # Do this if you're on a laptop.
-	};
+    services.fishnet = {
+      enable = true;
+      keyFile = "<path to your key file>";
+      cores = 12; # The number of CPU cores to use.
+      joinEvenIfNoBacklog = false; # Do this if you're on a laptop.
+    };
   };
 }
-	
 ```
