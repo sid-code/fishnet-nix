@@ -100,15 +100,15 @@
                 ${self.packages.${system}.fishnet}/bin/fishnet \
                   --no-conf \
                   --key-file ${cfg.keyFile} \
-                  --cores ${cfg.cores} \
+                  --cores ${builtins.toString cfg.cores} \
                   --user-backlog ${
                   if cfg.joinEvenIfNoBacklog
-                  then 0
+                  then "0"
                   else "short"
                 } \
                   --system-backlog ${
                   if cfg.joinEvenIfNoBacklog
-                  then 0
+                  then "0"
                   else "long"
                 }
               '';
