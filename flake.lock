@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "fishnet": {
+    "fishnetSource": {
       "flake": false,
       "locked": {
         "lastModified": 1696174902,
@@ -81,7 +81,7 @@
     },
     "root": {
       "inputs": {
-        "fishnet": "fishnet",
+        "fishnetSource": "fishnetSource",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs_2",
         "nnueNet": "nnueNet"
