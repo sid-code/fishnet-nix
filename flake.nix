@@ -30,33 +30,6 @@
           pkgs = import nixpkgs {inherit system;};
         });
   in {
-    containers = forEachSystem ({
-      system,
-      pkgs,
-    }: {
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = "192.168.100.10";
-      localAddress = "192.168.100.11";
-      hostAddress6 = "fc00::1";
-      localAddress6 = "fc00::2";
-      config = {
-        config,
-        lib,
-        ...
-      }: {
-        imports = [self.nixosModules.${system}.default];
-
-        services.fishnet = {
-          enable = true;
-          keyFile = pkgs.writeTextFile "fishnet.key" "invalid";
-        };
-
-        nix.settings.experimental-features = ["nix-command"];
-
-        services.resolved.enable = true;
-      };
-    });
     nixosModules = forEachSystem ({
       system,
       pkgs,
