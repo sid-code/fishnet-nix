@@ -90,11 +90,13 @@
           };
         };
         config = mkIf cfg.enable {
+          users.groups.fishnet.members = ["fishnet"];
           users.users.fishnet = {
             isSystemUser = true;
             home = "/var/fishnet";
             description = "Fishnet user";
             group = "fishnet";
+            createHome = true;
           };
 
           systemd.services.fishnet = {
