@@ -61,6 +61,11 @@
             type = types.bool;
             default = true;
           };
+          extraOptions = mkOption {
+            description = "Any extra CLI arguments to pass to fishnet.";
+            type = types.str;
+            default = "";
+          };
         };
         config = mkIf cfg.enable {
           users.groups.fishnet.members = ["fishnet"];
@@ -80,6 +85,7 @@
               User = "fishnet";
               ExecStart = pkgs.writeShellScript "fishnet-launcher" ''
                 ${self.packages.${system}.fishnet}/bin/fishnet \
+                  ${cfg.extraOptions} \
                   --no-conf \
                   --key-file ${cfg.keyFile} \
                   --cores ${builtins.toString cfg.cores} \
