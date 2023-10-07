@@ -22,24 +22,24 @@
     nnueNet,
   }: let
     supportedSystems = ["x86_64-linux"];
+    pkgsForSystem = system:
+      import nixpkgs {
+        inherit system;
+        overlays = [(final: prev: {fishnet = prev.fishnet;})];
+      };
     forEachSystem = f:
       nixpkgs.lib.genAttrs supportedSystems
       (system:
         f {
           inherit system;
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [(final: prev: {fishnet = prev.fishnet;})];
-          };
+          pkgs = pkgsForSystem system;
         });
   in {
     nixosModules = forEachSystem ({
       system,
       pkgs,
     }: {
-      default = pkgs.callPackage ./module.nix {
-        inherit system;
-      };
+      default = import ./module.nix;
     });
 
     packages = forEachSystem ({
