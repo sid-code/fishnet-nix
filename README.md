@@ -17,7 +17,7 @@ Add fishnet-nix to your `flake.nix`:
 ```nix
 {
   inputs = {
-    fishnet-nix.url = "https://flakehub.com/f/sid-code/YourFlakeName/*.tar.gz";
+    fishnet-nix.url = "github:sid-code/fishnet-nix";
     # ...
   }
 
