@@ -117,33 +117,40 @@
         };
       };
     });
-    packages =
-      forEachSystem
-      ({
-        system,
-        pkgs,
-      }: let
-        naerskLib = pkgs.callPackage naersk {};
-      in {
-        default = naerskLib.buildPackage {
-          src = fishnet;
-          overrideMain = p: {
-            patchPhase = ''
-              cp ${nnueNet} Stockfish/src/nn-5af11540bbfe.nnue
-            '';
-          };
+
+    packages = forEachSystem ({
+      system,
+      pkgs,
+    }: let
+      naerskLib = pkgs.callPackage naersk {};
+    in rec {
+      default = naerskLib.buildPackage {
+        src = fishnet;
+        overrideMain = p: {
+          patchPhase = ''
+            cp ${nnueNet} Stockfish/src/nn-5af11540bbfe.nnue
+          '';
         };
-        devShell = with pkgs;
-          mkShell {
-            buildInputs = [
-              cargo
-              rustc
-              rustfmt
-              pre-commit
-              rustPackages.clippy
-            ];
-            RUST_SRC_PATH = rustPlatform.rustLibSrc;
-          };
-      });
+      };
+
+      fishnet = default;
+    });
+
+    devShells = forEachSystem ({
+      system,
+      pkgs,
+    }: {
+      default = with pkgs;
+        mkShell {
+          buildInputs = [
+            cargo
+            rustc
+            rustfmt
+            pre-commit
+            rustPackages.clippy
+          ];
+          RUST_SRC_PATH = rustPlatform.rustLibSrc;
+        };
+    });
   };
 }
