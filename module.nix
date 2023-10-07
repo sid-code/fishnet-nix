@@ -13,6 +13,11 @@ in {
       description = "File that contains your Fishnet key.";
       type = types.path;
     };
+    package = mkOption {
+      description = "The fishnet package to use.";
+      default = pkgs.fishnet;
+      type = types.package;
+    };
     cores = mkOption {
       description = "The number of CPU cores to use.";
       type = types.number;
@@ -49,7 +54,7 @@ in {
       serviceConfig = {
         User = "fishnet";
         ExecStart = pkgs.writeShellScript "fishnet-launcher" ''
-          ${self.packages.${system}.fishnet}/bin/fishnet \
+          ${cfg.package}/bin/fishnet \
             ${cfg.extraOptions} \
             --no-conf \
             --key-file ${cfg.keyFile} \

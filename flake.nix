@@ -27,7 +27,10 @@
       (system:
         f {
           inherit system;
-          pkgs = import nixpkgs {inherit system;};
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [(final: prev: {fishnet = prev.fishnet;})];
+          };
         });
   in {
     nixosModules = forEachSystem ({
